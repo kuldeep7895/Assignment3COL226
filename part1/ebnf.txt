@@ -1,0 +1,30 @@
+
+start	:=	program EOF
+program	:=	stmtList
+stmtList	:=	statement stmtList
+statement	:=	formula TERM
+formula	:=	if exp then exp else exp fi | let var = exp in exp end | exp
+exp		:=	booleanFormula | intExp
+booleanFormula	:=	binopFormula IMPLIES booleanFormula | binopFormula
+binopFormula	:=	binopFormula binop unaryFormuala | unaryFormuala
+unaryFormuala	:=	NOT unaryFormula | basicFormula
+basicFormula	:=	CONST | LPAREN formula RPAREN 
+
+intExp		:=	intExp EQUALS relIntExp | relIntExp
+relIntExo	:=	relIntExp rel pulMinExp | pulMinExp 
+pulMinExp	:=	pulMinExp PLUS mulExp | pulMinExp MINUS mulExp | mulExp 
+mulExp		:=	mulExp TIMES negExp | negExp 
+negExp		:=	NEGATE negExp | basicFormula 
+
+
+
+
+
+start	:=	program EOF
+program	:=	stmtList
+stmtList	:=	statement stmtList
+statement	:=	formula TERM
+formula	:=	exp
+exp		:=	booleanFormula | intExp | if exp then exp else exp fi | let var = exp in exp end | booleanFormula | intExp
+
+

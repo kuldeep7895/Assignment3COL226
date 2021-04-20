@@ -1,0 +1,1078 @@
+
+state 0:
+
+	START : . program 
+
+	ID	shift 16
+	NUM	shift 15
+	NEGATE	shift 14
+	LPAREN	shift 13
+	LET	shift 12
+	IF	shift 11
+	CONST	shift 10
+	NOT	shift 9
+
+	EXP	goto 8
+	START	goto 57
+	program	goto 7
+	stmtList	goto 6
+	statement	goto 5
+	FORMULA	goto 4
+	intExp	goto 3
+	boolFormula	goto 2
+	gexp	goto 1
+
+	.	error
+
+
+state 1:
+
+	FORMULA : gexp .  (reduce by rule 5)
+	intExp : gexp . EQUALS gexp 
+	intExp : gexp . LESSTHAN gexp 
+	intExp : gexp . GREATERTHAN gexp 
+	intExp : gexp . PLUS gexp 
+	intExp : gexp . MINUS gexp 
+	intExp : gexp . TIMES gexp 
+	boolFormula : gexp . IMPLIES gexp 
+	boolFormula : gexp . AND gexp 
+	boolFormula : gexp . OR gexp 
+	boolFormula : gexp . XOR gexp 
+
+	PLUS	shift 26
+	TIMES	shift 25
+	MINUS	shift 24
+	EQUALS	shift 23
+	LESSTHAN	shift 22
+	GREATERTHAN	shift 21
+	AND	shift 20
+	OR	shift 19
+	XOR	shift 18
+	IMPLIES	shift 17
+
+
+	.	reduce by rule 5
+
+
+state 2:
+
+	EXP : boolFormula .  (reduce by rule 11)
+
+
+
+	.	reduce by rule 11
+
+
+state 3:
+
+	EXP : intExp .  (reduce by rule 10)
+
+
+
+	.	reduce by rule 10
+
+
+state 4:
+
+	statement : FORMULA . TERM 
+
+	TERM	shift 27
+
+
+	.	error
+
+
+state 5:
+
+	stmtList : statement . stmtList 
+	stmtList : statement .  (reduce by rule 3)
+
+	ID	shift 16
+	NUM	shift 15
+	NEGATE	shift 14
+	LPAREN	shift 13
+	LET	shift 12
+	IF	shift 11
+	CONST	shift 10
+	NOT	shift 9
+
+	EXP	goto 8
+	stmtList	goto 28
+	statement	goto 5
+	FORMULA	goto 4
+	intExp	goto 3
+	boolFormula	goto 2
+	gexp	goto 1
+
+	.	reduce by rule 3
+
+
+state 6:
+
+	program : stmtList .  (reduce by rule 1)
+
+
+
+	.	reduce by rule 1
+
+
+state 7:
+
+	START : program .  (reduce by rule 0)
+
+
+
+	.	reduce by rule 0
+
+
+state 8:
+
+	gexp : EXP .  (reduce by rule 8)
+
+
+
+	.	reduce by rule 8
+
+
+state 9:
+
+	boolFormula : NOT . gexp 
+
+	ID	shift 16
+	NUM	shift 15
+	NEGATE	shift 14
+	LPAREN	shift 13
+	LET	shift 12
+	IF	shift 11
+	CONST	shift 10
+	NOT	shift 9
+
+	EXP	goto 8
+	intExp	goto 3
+	boolFormula	goto 2
+	gexp	goto 29
+
+	.	error
+
+
+state 10:
+
+	boolFormula : CONST .  (reduce by rule 27)
+
+
+
+	.	reduce by rule 27
+
+
+state 11:
+
+	gexp : IF . gexp THEN gexp ELSE gexp FI 
+
+	ID	shift 16
+	NUM	shift 15
+	NEGATE	shift 14
+	LPAREN	shift 13
+	LET	shift 12
+	IF	shift 11
+	CONST	shift 10
+	NOT	shift 9
+
+	EXP	goto 8
+	intExp	goto 3
+	boolFormula	goto 2
+	gexp	goto 30
+
+	.	error
+
+
+state 12:
+
+	gexp : LET . DECL IN gexp END 
+
+	ID	shift 32
+
+	DECL	goto 31
+
+	.	error
+
+
+state 13:
+
+	EXP : LPAREN . EXP RPAREN 
+
+	ID	shift 16
+	NUM	shift 15
+	NEGATE	shift 14
+	LPAREN	shift 13
+	LET	shift 12
+	IF	shift 11
+	CONST	shift 10
+	NOT	shift 9
+
+	EXP	goto 34
+	intExp	goto 3
+	boolFormula	goto 2
+	gexp	goto 33
+
+	.	error
+
+
+state 14:
+
+	intExp : NEGATE . gexp 
+
+	ID	shift 16
+	NUM	shift 15
+	NEGATE	shift 14
+	LPAREN	shift 13
+	LET	shift 12
+	IF	shift 11
+	CONST	shift 10
+	NOT	shift 9
+
+	EXP	goto 8
+	intExp	goto 3
+	boolFormula	goto 2
+	gexp	goto 35
+
+	.	error
+
+
+state 15:
+
+	intExp : NUM .  (reduce by rule 21)
+
+
+
+	.	reduce by rule 21
+
+
+state 16:
+
+	EXP : ID .  (reduce by rule 13)
+
+
+
+	.	reduce by rule 13
+
+
+state 17:
+
+	boolFormula : gexp IMPLIES . gexp 
+
+	ID	shift 16
+	NUM	shift 15
+	NEGATE	shift 14
+	LPAREN	shift 13
+	LET	shift 12
+	IF	shift 11
+	CONST	shift 10
+	NOT	shift 9
+
+	EXP	goto 8
+	intExp	goto 3
+	boolFormula	goto 2
+	gexp	goto 36
+
+	.	error
+
+
+state 18:
+
+	boolFormula : gexp XOR . gexp 
+
+	ID	shift 16
+	NUM	shift 15
+	NEGATE	shift 14
+	LPAREN	shift 13
+	LET	shift 12
+	IF	shift 11
+	CONST	shift 10
+	NOT	shift 9
+
+	EXP	goto 8
+	intExp	goto 3
+	boolFormula	goto 2
+	gexp	goto 37
+
+	.	error
+
+
+state 19:
+
+	boolFormula : gexp OR . gexp 
+
+	ID	shift 16
+	NUM	shift 15
+	NEGATE	shift 14
+	LPAREN	shift 13
+	LET	shift 12
+	IF	shift 11
+	CONST	shift 10
+	NOT	shift 9
+
+	EXP	goto 8
+	intExp	goto 3
+	boolFormula	goto 2
+	gexp	goto 38
+
+	.	error
+
+
+state 20:
+
+	boolFormula : gexp AND . gexp 
+
+	ID	shift 16
+	NUM	shift 15
+	NEGATE	shift 14
+	LPAREN	shift 13
+	LET	shift 12
+	IF	shift 11
+	CONST	shift 10
+	NOT	shift 9
+
+	EXP	goto 8
+	intExp	goto 3
+	boolFormula	goto 2
+	gexp	goto 39
+
+	.	error
+
+
+state 21:
+
+	intExp : gexp GREATERTHAN . gexp 
+
+	ID	shift 16
+	NUM	shift 15
+	NEGATE	shift 14
+	LPAREN	shift 13
+	LET	shift 12
+	IF	shift 11
+	CONST	shift 10
+	NOT	shift 9
+
+	EXP	goto 8
+	intExp	goto 3
+	boolFormula	goto 2
+	gexp	goto 40
+
+	.	error
+
+
+state 22:
+
+	intExp : gexp LESSTHAN . gexp 
+
+	ID	shift 16
+	NUM	shift 15
+	NEGATE	shift 14
+	LPAREN	shift 13
+	LET	shift 12
+	IF	shift 11
+	CONST	shift 10
+	NOT	shift 9
+
+	EXP	goto 8
+	intExp	goto 3
+	boolFormula	goto 2
+	gexp	goto 41
+
+	.	error
+
+
+state 23:
+
+	intExp : gexp EQUALS . gexp 
+
+	ID	shift 16
+	NUM	shift 15
+	NEGATE	shift 14
+	LPAREN	shift 13
+	LET	shift 12
+	IF	shift 11
+	CONST	shift 10
+	NOT	shift 9
+
+	EXP	goto 8
+	intExp	goto 3
+	boolFormula	goto 2
+	gexp	goto 42
+
+	.	error
+
+
+state 24:
+
+	intExp : gexp MINUS . gexp 
+
+	ID	shift 16
+	NUM	shift 15
+	NEGATE	shift 14
+	LPAREN	shift 13
+	LET	shift 12
+	IF	shift 11
+	CONST	shift 10
+	NOT	shift 9
+
+	EXP	goto 8
+	intExp	goto 3
+	boolFormula	goto 2
+	gexp	goto 43
+
+	.	error
+
+
+state 25:
+
+	intExp : gexp TIMES . gexp 
+
+	ID	shift 16
+	NUM	shift 15
+	NEGATE	shift 14
+	LPAREN	shift 13
+	LET	shift 12
+	IF	shift 11
+	CONST	shift 10
+	NOT	shift 9
+
+	EXP	goto 8
+	intExp	goto 3
+	boolFormula	goto 2
+	gexp	goto 44
+
+	.	error
+
+
+state 26:
+
+	intExp : gexp PLUS . gexp 
+
+	ID	shift 16
+	NUM	shift 15
+	NEGATE	shift 14
+	LPAREN	shift 13
+	LET	shift 12
+	IF	shift 11
+	CONST	shift 10
+	NOT	shift 9
+
+	EXP	goto 8
+	intExp	goto 3
+	boolFormula	goto 2
+	gexp	goto 45
+
+	.	error
+
+
+state 27:
+
+	statement : FORMULA TERM .  (reduce by rule 4)
+
+
+
+	.	reduce by rule 4
+
+
+state 28:
+
+	stmtList : statement stmtList .  (reduce by rule 2)
+
+
+
+	.	reduce by rule 2
+
+
+state 29:
+
+	intExp : gexp . EQUALS gexp 
+	intExp : gexp . LESSTHAN gexp 
+	intExp : gexp . GREATERTHAN gexp 
+	intExp : gexp . PLUS gexp 
+	intExp : gexp . MINUS gexp 
+	intExp : gexp . TIMES gexp 
+	boolFormula : gexp . IMPLIES gexp 
+	boolFormula : gexp . AND gexp 
+	boolFormula : gexp . OR gexp 
+	boolFormula : gexp . XOR gexp 
+	boolFormula : NOT gexp .  (reduce by rule 26)
+
+	PLUS	shift 26
+	TIMES	shift 25
+	MINUS	shift 24
+	LESSTHAN	shift 22
+	GREATERTHAN	shift 21
+
+
+	.	reduce by rule 26
+
+
+state 30:
+
+	intExp : gexp . EQUALS gexp 
+	intExp : gexp . LESSTHAN gexp 
+	intExp : gexp . GREATERTHAN gexp 
+	intExp : gexp . PLUS gexp 
+	intExp : gexp . MINUS gexp 
+	intExp : gexp . TIMES gexp 
+	boolFormula : gexp . IMPLIES gexp 
+	boolFormula : gexp . AND gexp 
+	boolFormula : gexp . OR gexp 
+	boolFormula : gexp . XOR gexp 
+	gexp : IF gexp . THEN gexp ELSE gexp FI 
+
+	PLUS	shift 26
+	TIMES	shift 25
+	MINUS	shift 24
+	EQUALS	shift 23
+	LESSTHAN	shift 22
+	GREATERTHAN	shift 21
+	THEN	shift 46
+	AND	shift 20
+	OR	shift 19
+	XOR	shift 18
+	IMPLIES	shift 17
+
+
+	.	error
+
+
+state 31:
+
+	gexp : LET DECL . IN gexp END 
+
+	IN	shift 47
+
+
+	.	error
+
+
+state 32:
+
+	DECL : ID . EQ EXP 
+
+	EQ	shift 48
+
+
+	.	error
+
+
+state 33:
+
+	intExp : gexp . EQUALS gexp 
+	intExp : gexp . LESSTHAN gexp 
+	intExp : gexp . GREATERTHAN gexp 
+	intExp : gexp . PLUS gexp 
+	intExp : gexp . MINUS gexp 
+	intExp : gexp . TIMES gexp 
+	boolFormula : gexp . IMPLIES gexp 
+	boolFormula : gexp . AND gexp 
+	boolFormula : gexp . OR gexp 
+	boolFormula : gexp . XOR gexp 
+
+	PLUS	shift 26
+	TIMES	shift 25
+	MINUS	shift 24
+	EQUALS	shift 23
+	LESSTHAN	shift 22
+	GREATERTHAN	shift 21
+	AND	shift 20
+	OR	shift 19
+	XOR	shift 18
+	IMPLIES	shift 17
+
+
+	.	error
+
+
+state 34:
+
+	EXP : LPAREN EXP . RPAREN 
+	gexp : EXP .  (reduce by rule 8)
+
+	RPAREN	shift 49
+
+
+	.	reduce by rule 8
+
+
+state 35:
+
+	intExp : gexp . EQUALS gexp 
+	intExp : gexp . LESSTHAN gexp 
+	intExp : gexp . GREATERTHAN gexp 
+	intExp : gexp . PLUS gexp 
+	intExp : gexp . MINUS gexp 
+	intExp : gexp . TIMES gexp 
+	intExp : NEGATE gexp .  (reduce by rule 20)
+	boolFormula : gexp . IMPLIES gexp 
+	boolFormula : gexp . AND gexp 
+	boolFormula : gexp . OR gexp 
+	boolFormula : gexp . XOR gexp 
+
+
+
+	.	reduce by rule 20
+
+
+state 36:
+
+	intExp : gexp . EQUALS gexp 
+	intExp : gexp . LESSTHAN gexp 
+	intExp : gexp . GREATERTHAN gexp 
+	intExp : gexp . PLUS gexp 
+	intExp : gexp . MINUS gexp 
+	intExp : gexp . TIMES gexp 
+	boolFormula : gexp . IMPLIES gexp 
+	boolFormula : gexp IMPLIES gexp .  (reduce by rule 22)
+	boolFormula : gexp . AND gexp 
+	boolFormula : gexp . OR gexp 
+	boolFormula : gexp . XOR gexp 
+
+	PLUS	shift 26
+	TIMES	shift 25
+	MINUS	shift 24
+	EQUALS	shift 23
+	LESSTHAN	shift 22
+	GREATERTHAN	shift 21
+	AND	shift 20
+	OR	shift 19
+	XOR	shift 18
+	IMPLIES	shift 17
+
+
+	.	reduce by rule 22
+
+
+state 37:
+
+	intExp : gexp . EQUALS gexp 
+	intExp : gexp . LESSTHAN gexp 
+	intExp : gexp . GREATERTHAN gexp 
+	intExp : gexp . PLUS gexp 
+	intExp : gexp . MINUS gexp 
+	intExp : gexp . TIMES gexp 
+	boolFormula : gexp . IMPLIES gexp 
+	boolFormula : gexp . AND gexp 
+	boolFormula : gexp . OR gexp 
+	boolFormula : gexp . XOR gexp 
+	boolFormula : gexp XOR gexp .  (reduce by rule 25)
+
+	PLUS	shift 26
+	TIMES	shift 25
+	MINUS	shift 24
+	LESSTHAN	shift 22
+	GREATERTHAN	shift 21
+
+
+	.	reduce by rule 25
+
+
+state 38:
+
+	intExp : gexp . EQUALS gexp 
+	intExp : gexp . LESSTHAN gexp 
+	intExp : gexp . GREATERTHAN gexp 
+	intExp : gexp . PLUS gexp 
+	intExp : gexp . MINUS gexp 
+	intExp : gexp . TIMES gexp 
+	boolFormula : gexp . IMPLIES gexp 
+	boolFormula : gexp . AND gexp 
+	boolFormula : gexp . OR gexp 
+	boolFormula : gexp OR gexp .  (reduce by rule 24)
+	boolFormula : gexp . XOR gexp 
+
+	PLUS	shift 26
+	TIMES	shift 25
+	MINUS	shift 24
+	LESSTHAN	shift 22
+	GREATERTHAN	shift 21
+
+
+	.	reduce by rule 24
+
+
+state 39:
+
+	intExp : gexp . EQUALS gexp 
+	intExp : gexp . LESSTHAN gexp 
+	intExp : gexp . GREATERTHAN gexp 
+	intExp : gexp . PLUS gexp 
+	intExp : gexp . MINUS gexp 
+	intExp : gexp . TIMES gexp 
+	boolFormula : gexp . IMPLIES gexp 
+	boolFormula : gexp . AND gexp 
+	boolFormula : gexp AND gexp .  (reduce by rule 23)
+	boolFormula : gexp . OR gexp 
+	boolFormula : gexp . XOR gexp 
+
+	PLUS	shift 26
+	TIMES	shift 25
+	MINUS	shift 24
+	LESSTHAN	shift 22
+	GREATERTHAN	shift 21
+
+
+	.	reduce by rule 23
+
+
+state 40:
+
+	intExp : gexp . EQUALS gexp 
+	intExp : gexp . LESSTHAN gexp 
+	intExp : gexp . GREATERTHAN gexp 
+	intExp : gexp GREATERTHAN gexp .  (reduce by rule 16)
+	intExp : gexp . PLUS gexp 
+	intExp : gexp . MINUS gexp 
+	intExp : gexp . TIMES gexp 
+	boolFormula : gexp . IMPLIES gexp 
+	boolFormula : gexp . AND gexp 
+	boolFormula : gexp . OR gexp 
+	boolFormula : gexp . XOR gexp 
+
+	PLUS	shift 26
+	TIMES	shift 25
+	MINUS	shift 24
+
+
+	.	reduce by rule 16
+
+
+state 41:
+
+	intExp : gexp . EQUALS gexp 
+	intExp : gexp . LESSTHAN gexp 
+	intExp : gexp LESSTHAN gexp .  (reduce by rule 15)
+	intExp : gexp . GREATERTHAN gexp 
+	intExp : gexp . PLUS gexp 
+	intExp : gexp . MINUS gexp 
+	intExp : gexp . TIMES gexp 
+	boolFormula : gexp . IMPLIES gexp 
+	boolFormula : gexp . AND gexp 
+	boolFormula : gexp . OR gexp 
+	boolFormula : gexp . XOR gexp 
+
+	PLUS	shift 26
+	TIMES	shift 25
+	MINUS	shift 24
+
+
+	.	reduce by rule 15
+
+
+state 42:
+
+	intExp : gexp . EQUALS gexp 
+	intExp : gexp EQUALS gexp .  (reduce by rule 14)
+	intExp : gexp . LESSTHAN gexp 
+	intExp : gexp . GREATERTHAN gexp 
+	intExp : gexp . PLUS gexp 
+	intExp : gexp . MINUS gexp 
+	intExp : gexp . TIMES gexp 
+	boolFormula : gexp . IMPLIES gexp 
+	boolFormula : gexp . AND gexp 
+	boolFormula : gexp . OR gexp 
+	boolFormula : gexp . XOR gexp 
+
+	PLUS	shift 26
+	TIMES	shift 25
+	MINUS	shift 24
+	LESSTHAN	shift 22
+	GREATERTHAN	shift 21
+
+
+	.	reduce by rule 14
+
+
+state 43:
+
+	intExp : gexp . EQUALS gexp 
+	intExp : gexp . LESSTHAN gexp 
+	intExp : gexp . GREATERTHAN gexp 
+	intExp : gexp . PLUS gexp 
+	intExp : gexp . MINUS gexp 
+	intExp : gexp MINUS gexp .  (reduce by rule 18)
+	intExp : gexp . TIMES gexp 
+	boolFormula : gexp . IMPLIES gexp 
+	boolFormula : gexp . AND gexp 
+	boolFormula : gexp . OR gexp 
+	boolFormula : gexp . XOR gexp 
+
+	TIMES	shift 25
+
+
+	.	reduce by rule 18
+
+
+state 44:
+
+	intExp : gexp . EQUALS gexp 
+	intExp : gexp . LESSTHAN gexp 
+	intExp : gexp . GREATERTHAN gexp 
+	intExp : gexp . PLUS gexp 
+	intExp : gexp . MINUS gexp 
+	intExp : gexp . TIMES gexp 
+	intExp : gexp TIMES gexp .  (reduce by rule 19)
+	boolFormula : gexp . IMPLIES gexp 
+	boolFormula : gexp . AND gexp 
+	boolFormula : gexp . OR gexp 
+	boolFormula : gexp . XOR gexp 
+
+
+
+	.	reduce by rule 19
+
+
+state 45:
+
+	intExp : gexp . EQUALS gexp 
+	intExp : gexp . LESSTHAN gexp 
+	intExp : gexp . GREATERTHAN gexp 
+	intExp : gexp . PLUS gexp 
+	intExp : gexp PLUS gexp .  (reduce by rule 17)
+	intExp : gexp . MINUS gexp 
+	intExp : gexp . TIMES gexp 
+	boolFormula : gexp . IMPLIES gexp 
+	boolFormula : gexp . AND gexp 
+	boolFormula : gexp . OR gexp 
+	boolFormula : gexp . XOR gexp 
+
+	TIMES	shift 25
+
+
+	.	reduce by rule 17
+
+
+state 46:
+
+	gexp : IF gexp THEN . gexp ELSE gexp FI 
+
+	ID	shift 16
+	NUM	shift 15
+	NEGATE	shift 14
+	LPAREN	shift 13
+	LET	shift 12
+	IF	shift 11
+	CONST	shift 10
+	NOT	shift 9
+
+	EXP	goto 8
+	intExp	goto 3
+	boolFormula	goto 2
+	gexp	goto 50
+
+	.	error
+
+
+state 47:
+
+	gexp : LET DECL IN . gexp END 
+
+	ID	shift 16
+	NUM	shift 15
+	NEGATE	shift 14
+	LPAREN	shift 13
+	LET	shift 12
+	IF	shift 11
+	CONST	shift 10
+	NOT	shift 9
+
+	EXP	goto 8
+	intExp	goto 3
+	boolFormula	goto 2
+	gexp	goto 51
+
+	.	error
+
+
+state 48:
+
+	DECL : ID EQ . EXP 
+
+	ID	shift 16
+	NUM	shift 15
+	NEGATE	shift 14
+	LPAREN	shift 13
+	LET	shift 12
+	IF	shift 11
+	CONST	shift 10
+	NOT	shift 9
+
+	EXP	goto 52
+	intExp	goto 3
+	boolFormula	goto 2
+	gexp	goto 33
+
+	.	error
+
+
+state 49:
+
+	EXP : LPAREN EXP RPAREN .  (reduce by rule 12)
+
+
+
+	.	reduce by rule 12
+
+
+state 50:
+
+	intExp : gexp . EQUALS gexp 
+	intExp : gexp . LESSTHAN gexp 
+	intExp : gexp . GREATERTHAN gexp 
+	intExp : gexp . PLUS gexp 
+	intExp : gexp . MINUS gexp 
+	intExp : gexp . TIMES gexp 
+	boolFormula : gexp . IMPLIES gexp 
+	boolFormula : gexp . AND gexp 
+	boolFormula : gexp . OR gexp 
+	boolFormula : gexp . XOR gexp 
+	gexp : IF gexp THEN gexp . ELSE gexp FI 
+
+	PLUS	shift 26
+	TIMES	shift 25
+	MINUS	shift 24
+	EQUALS	shift 23
+	LESSTHAN	shift 22
+	GREATERTHAN	shift 21
+	ELSE	shift 53
+	AND	shift 20
+	OR	shift 19
+	XOR	shift 18
+	IMPLIES	shift 17
+
+
+	.	error
+
+
+state 51:
+
+	intExp : gexp . EQUALS gexp 
+	intExp : gexp . LESSTHAN gexp 
+	intExp : gexp . GREATERTHAN gexp 
+	intExp : gexp . PLUS gexp 
+	intExp : gexp . MINUS gexp 
+	intExp : gexp . TIMES gexp 
+	boolFormula : gexp . IMPLIES gexp 
+	boolFormula : gexp . AND gexp 
+	boolFormula : gexp . OR gexp 
+	boolFormula : gexp . XOR gexp 
+	gexp : LET DECL IN gexp . END 
+
+	PLUS	shift 26
+	TIMES	shift 25
+	MINUS	shift 24
+	EQUALS	shift 23
+	LESSTHAN	shift 22
+	GREATERTHAN	shift 21
+	END	shift 54
+	AND	shift 20
+	OR	shift 19
+	XOR	shift 18
+	IMPLIES	shift 17
+
+
+	.	error
+
+
+state 52:
+
+	DECL : ID EQ EXP .  (reduce by rule 9)
+	gexp : EXP .  (reduce by rule 8)
+
+	PLUS	reduce by rule 8
+	TIMES	reduce by rule 8
+	MINUS	reduce by rule 8
+	EQUALS	reduce by rule 8
+	LESSTHAN	reduce by rule 8
+	GREATERTHAN	reduce by rule 8
+	IN	reduce by rule 9
+	AND	reduce by rule 8
+	OR	reduce by rule 8
+	XOR	reduce by rule 8
+	IMPLIES	reduce by rule 8
+
+
+	.	error
+
+
+state 53:
+
+	gexp : IF gexp THEN gexp ELSE . gexp FI 
+
+	ID	shift 16
+	NUM	shift 15
+	NEGATE	shift 14
+	LPAREN	shift 13
+	LET	shift 12
+	IF	shift 11
+	CONST	shift 10
+	NOT	shift 9
+
+	EXP	goto 8
+	intExp	goto 3
+	boolFormula	goto 2
+	gexp	goto 55
+
+	.	error
+
+
+state 54:
+
+	gexp : LET DECL IN gexp END .  (reduce by rule 6)
+
+
+
+	.	reduce by rule 6
+
+
+state 55:
+
+	intExp : gexp . EQUALS gexp 
+	intExp : gexp . LESSTHAN gexp 
+	intExp : gexp . GREATERTHAN gexp 
+	intExp : gexp . PLUS gexp 
+	intExp : gexp . MINUS gexp 
+	intExp : gexp . TIMES gexp 
+	boolFormula : gexp . IMPLIES gexp 
+	boolFormula : gexp . AND gexp 
+	boolFormula : gexp . OR gexp 
+	boolFormula : gexp . XOR gexp 
+	gexp : IF gexp THEN gexp ELSE gexp . FI 
+
+	PLUS	shift 26
+	TIMES	shift 25
+	MINUS	shift 24
+	EQUALS	shift 23
+	LESSTHAN	shift 22
+	GREATERTHAN	shift 21
+	FI	shift 56
+	AND	shift 20
+	OR	shift 19
+	XOR	shift 18
+	IMPLIES	shift 17
+
+
+	.	error
+
+
+state 56:
+
+	gexp : IF gexp THEN gexp ELSE gexp FI .  (reduce by rule 7)
+
+
+
+	.	reduce by rule 7
+
+
+state 57:
+
+
+	EOF	accept
+
+
+	.	error
+
+140 of 342 action table entries left after compaction
+89 goto table entries
